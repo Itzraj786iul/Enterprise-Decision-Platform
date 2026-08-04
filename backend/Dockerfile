@@ -26,6 +26,6 @@ RUN chmod +x scripts/start.sh
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD-SHELL curl -f "http://127.0.0.1:${PORT}/health" || exit 1
+  CMD curl -f http://127.0.0.1:8000/health || exit 1
 
 CMD ["./scripts/start.sh"]
