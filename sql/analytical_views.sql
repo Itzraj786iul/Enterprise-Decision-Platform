@@ -651,8 +651,8 @@ WITH src AS (
     UNION ALL
     SELECT 'oltp.order_items',
            COUNT(*)::NUMERIC,
-           COUNT(*) FILTER (WHERE order_id IS NULL OR product_id IS NULL)::NUMERIC,
-           COUNT(*)::NUMERIC - COUNT(DISTINCT order_item_id)::NUMERIC,
+           COUNT(*) FILTER (WHERE oi.order_id IS NULL OR oi.product_id IS NULL)::NUMERIC,
+           COUNT(*)::NUMERIC - COUNT(DISTINCT oi.order_item_id)::NUMERIC,
            MAX(o.updated_at)
     FROM oltp.order_items oi
     LEFT JOIN oltp.orders o ON o.order_id = oi.order_id

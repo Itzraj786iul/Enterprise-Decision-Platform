@@ -111,15 +111,23 @@ Then point Render `DATABASE_URL` at Neon (pooled), set `APP_ENV=production`, hea
 
 ---
 
-## Verification queries
+## Neon already has core views but missing ML/DQ?
+
+If verification shows the 13 KPI views but not `vw_ml_predictions` / `vw_data_quality_summary`, apply the minimal patch only:
+
+```bash
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/patches/001_neon_ml_dq_views.sql
+# optional prediction CSV load
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/load_ml_predictions.sql
+```
+
+Verify:
 
 ```sql
-SELECT COUNT(*) FROM information_schema.views
-WHERE table_schema = 'analytics' AND table_name IN (
-  'vw_ml_predictions', 'vw_data_quality_summary', 'vw_sales_daily'
-);
-
-SELECT * FROM alembic_version;  -- 0001_baseline
+SELECT table_name
+FROM information_schema.views
+WHERE table_schema = 'analytics'
+  AND table_name IN ('vw_ml_predictions', 'vw_data_quality_summary');
 ```
 
 ---

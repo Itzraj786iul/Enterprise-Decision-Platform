@@ -811,7 +811,13 @@ CREATE TABLE store_labor_hours (
     work_date           DATE            NOT NULL,
     labor_hours         DECIMAL(8, 2)   NOT NULL,
     labor_cost          DECIMAL(18, 2),
-    CONSTRAINT ck_labor_hours CHECK (labor_hours > 0 AND labor_hours <= 24),
+    CONSTRAINT ck_labor_hours CHECK (
+        labor_hours > 0
+        AND (
+            (employee_id IS NULL AND labor_hours <= 500)
+            OR (employee_id IS NOT NULL AND labor_hours <= 24)
+        )
+    ),
     CONSTRAINT ck_labor_cost CHECK (labor_cost IS NULL OR labor_cost >= 0),
     CONSTRAINT fk_labor_store
         FOREIGN KEY (store_id) REFERENCES stores (store_id)
