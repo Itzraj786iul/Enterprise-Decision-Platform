@@ -1,0 +1,90 @@
+# Render Blueprint — Enterprise Decision Platform API
+# Docs: https://render.com/docs/blueprint-spec
+# Full sequence: docs/18_Production_Deployment.md
+#
+# Usage:
+# 1. Push this repo to GitHub (branch: main)
+# 2. Render Dashboard → New → Blueprint → select repo
+# 3. Set secret env vars (DATABASE_URL, JWT_SECRET_KEY, CORS_ORIGINS)
+# 4. Deploy — health check hits /readiness
+# 5. Render Shell: alembic upgrade head (first time)
+# 6. Apply analytics SQL views to Neon (parent consulting SQL scripts)
+#
+# Runtime notes:
+# - PYTHON_VERSION pins 3.12.8
+# - start.sh binds $PORT, enables proxy headers, --timeout-graceful-shutdown 30
+# - Auto Deploy on push to main
+# - Secrets use sync: false (set in dashboard; never commit)
+
+services:
+  - type: web
+    name: edp-api
+    runtime: python
+    plan: starter
+    region: oregon
+    rootDir: backend
+    autoDeploy: true
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: chmod +x scripts/start.sh && ./scripts/start.sh
+    healthCheckPath: /readiness
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: APP_ENV
+        value: production
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LOG_JSON
+        value: "true"
+      - key: API_HOST
+        value: "0.0.0.0"
+      - key: DATABASE_SSL_REQUIRE
+        value: "true"
+      - key: DATABASE_REQUIRED_ON_STARTUP
+        value: "true"
+      - key: DATABASE_POOL_SIZE
+        value: "5"
+      - key: DATABASE_MAX_OVERFLOW
+        value: "5"
+      - key: DATABASE_POOL_RECYCLE
+        value: "300"
+      - key: AUTH_REQUIRED
+        value: "true"
+      - key: AUTH_DEV_TOKEN_ENABLED
+        value: "false"
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_ISSUER
+        value: edp-api
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: METRICS_ENABLED
+        value: "true"
+      - key: OTEL_ENABLED
+        value: "false"
+      - key: OTEL_SERVICE_NAME
+        value: edp-api
+      - key: GZIP_MINIMUM_SIZE
+        value: "500"
+      - key: HTTP_CACHE_MAX_AGE_SECONDS
+        value: "30"
+      - key: CACHE_CONTROL_MAX_AGE
+        value: "30"
+      - key: SLOW_REQUEST_MS
+        value: "1000"
+      - key: ANALYTICS_SCHEMA
+        value: analytics
+      - key: WEB_CONCURRENCY
+        value: "1"
+      # Secrets — set in Render Dashboard (do not commit real values)
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
