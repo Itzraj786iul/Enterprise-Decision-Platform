@@ -46,8 +46,8 @@ Services depend on **logical keys**, not physical names:
 | `campaign_performance` | `analytics.vw_campaign_performance` |
 | `payment_mix` | `analytics.vw_payment_mix` |
 | `executive_scorecard` | `analytics.vw_executive_daily_kpis` |
-| `machine_learning_predictions` | `analytics.vw_ml_predictions` (publish when ready) |
-| `data_quality_summary` | `analytics.vw_data_quality_summary` (publish when ready) |
+| `machine_learning_predictions` | `analytics.vw_ml_predictions` |
+| `data_quality_summary` | `analytics.vw_data_quality_summary` |
 
 Override without code changes:
 

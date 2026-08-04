@@ -463,10 +463,10 @@ def default_view_catalog(schema: str = "analytics") -> dict[AnalyticsViewKey, An
             schema=schema,
             name="vw_ml_predictions",
             date_columns=("prediction_date", "as_of_date"),
-            searchable_columns=("model_name", "entity_type", "entity_id"),
+            searchable_columns=("model_name", "entity_type", "entity_id", "prediction_source"),
             sortable_columns=("prediction_date", "score", "model_name"),
             default_sort="prediction_date",
-            description="Read-only ML prediction outputs (view must exist in DB)",
+            description="Churn, profit, and sales-forecast predictions from analytics staging",
         ),
         AnalyticsViewKey.DATA_QUALITY_SUMMARY: AnalyticsViewDefinition(
             key=AnalyticsViewKey.DATA_QUALITY_SUMMARY,
@@ -476,7 +476,7 @@ def default_view_catalog(schema: str = "analytics") -> dict[AnalyticsViewKey, An
             searchable_columns=("check_name", "entity_name", "severity"),
             sortable_columns=("check_date", "score", "severity"),
             default_sort="check_date",
-            description="Data quality summary (view must exist in DB)",
+            description="Per-table and overall DQ metrics computed from oltp tables",
         ),
     }
 

@@ -1,7 +1,7 @@
 """Baseline Alembic revision — platform metadata only (no business schema).
 
-Analytics views/tables are provisioned externally (Neon + SQL scripts under
-the parent consulting repo). This revision ensures `alembic upgrade head`
+Analytics views/tables are provisioned externally (Neon + in-repo SQL under
+`database/` and `sql/`). This revision ensures `alembic upgrade head`
 succeeds and creates alembic_version for future ORM migrations.
 """
 

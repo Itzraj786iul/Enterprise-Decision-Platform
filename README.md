@@ -17,6 +17,10 @@ Production-ready monorepo for the Enterprise Decision Intelligence Platform
 enterprise-decision-platform/
 ├── frontend/                 Next.js (Vercel Root Directory)
 ├── backend/                  FastAPI (Render rootDir)
+├── database/                 OLTP schema, indexes, foundational views
+├── sql/                      Analytics views, ML load, procedures
+├── data/predictions/         Persisted ML CSV outputs
+├── data_generation/          Synthetic OLTP CSV generator
 ├── shared/                   Cross-cutting contracts
 ├── docs/                     Architecture + deployment docs
 ├── scripts/                  Smoke + deployment verification
@@ -106,7 +110,10 @@ Auth/RBAC, feature registry, OpenAPI, metrics, tracing prep, and performance hea
 |-----|---------|
 | **[docs/17_Deployment_Guide.md](docs/17_Deployment_Guide.md)** | Architecture, env templates, first-time setup |
 | **[docs/18_Production_Deployment.md](docs/18_Production_Deployment.md)** | Full production sequence, smoke tests, rollback, monitoring |
+| **[docs/19_Render_Deployment.md](docs/19_Render_Deployment.md)** | Render Blueprint verify + operator checklist |
+| **[docs/19_Neon_Deployment.md](docs/19_Neon_Deployment.md)** | Neon Postgres production DB plan |
 | **[DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** | Go / no-go checklist |
+| **[RENDER_DEPLOYMENT_CHECKLIST.md](RENDER_DEPLOYMENT_CHECKLIST.md)** | Render-only deploy steps |
 | **[PRODUCTION_ENV_CHECKLIST.md](PRODUCTION_ENV_CHECKLIST.md)** | Required / optional / secrets / feature flags |
 
 Render Blueprint: [`render.yaml`](render.yaml). Vercel: Root Directory = `frontend` (no `vercel.json` required).

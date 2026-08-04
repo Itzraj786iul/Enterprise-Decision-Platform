@@ -8,7 +8,7 @@
 # 3. Set secret env vars (DATABASE_URL, JWT_SECRET_KEY, CORS_ORIGINS)
 # 4. Deploy — health check hits /readiness
 # 5. Render Shell: alembic upgrade head (first time)
-# 6. Apply analytics SQL views to Neon (parent consulting SQL scripts)
+# 6. Apply analytics SQL views to Neon (in-repo database/ + sql/)
 #
 # Runtime notes:
 # - PYTHON_VERSION pins 3.12.8

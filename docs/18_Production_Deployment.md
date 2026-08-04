@@ -95,7 +95,7 @@ CI (`.github/workflows/ci.yml`) runs on push/PR to `main` / `master` / `develop`
 - GitHub repo pushed
 - Neon, Render, and Vercel accounts available (you connect them manually)
 - Strong JWT secret generated (≥32 characters)
-- Analytics SQL available from the parent consulting repo
+- Analytics SQL available in-repo under `database/` and `sql/`
 
 ### 1. Create Neon database
 
@@ -123,15 +123,16 @@ Expected: revision `0001_baseline` (no-op platform baseline). Business tables/vi
 Against the same Neon database, apply consulting SQL **in order**:
 
 ```bash
-# From parent consulting repository (paths relative to that repo)
+# From enterprise-decision-platform repository root
 psql "$DATABASE_URL" -f database/schema.sql
 psql "$DATABASE_URL" -f database/indexes.sql
 psql "$DATABASE_URL" -f database/views.sql
 psql "$DATABASE_URL" -f sql/analytical_views.sql
 psql "$DATABASE_URL" -f sql/stored_procedures.sql   # optional helpers
+psql "$DATABASE_URL" -f sql/load_ml_predictions.sql # optional — loads data/predictions CSVs
 ```
 
-Load data as required by your data pipeline (`data_generation/` or warehouse loads).
+Load OLTP data as required by your data pipeline (`data_generation/` or warehouse loads).
 
 ### 4. Verify analytics objects
 

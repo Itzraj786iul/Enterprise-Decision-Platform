@@ -28,7 +28,7 @@ enterprise-decision-platform/
 └── DEPLOYMENT_CHECKLIST.md
 ```
 
-Analytics SQL views live in the parent consulting repo (`sql/`, `database/`). Neon must be seeded with those views separately — Alembic only tracks the API baseline.
+Analytics SQL, OLTP DDL, and synthetic data generation live **in this repository** (`database/`, `sql/`, `data_generation/`). Neon must be seeded with those scripts — Alembic only tracks the API baseline.
 
 ---
 
@@ -90,7 +90,7 @@ Vercel (Next.js)  ──HTTPS──►  Render (FastAPI / uvicorn)
 2. Copy the connection string.
 3. Prefer: `postgresql://USER:PASSWORD@HOST/DB?sslmode=require`  
    The app rewrites to `postgresql+psycopg://` and ensures `sslmode=require` for Neon hosts / production.
-4. Apply OLTP + analytics SQL from the parent consulting repository (`database/`, `sql/analytical_views.sql`).
+4. Apply OLTP + analytics SQL from this repository (`database/`, `sql/analytical_views.sql`). Optionally load ML CSVs via `sql/load_ml_predictions.sql`.
 5. Confirm schema `analytics` (or override with `ANALYTICS_SCHEMA`) exists.
 6. Set Render `DATABASE_URL` to the Neon URL.
 7. Keep pool sizes modest (`DATABASE_POOL_SIZE=5`, `DATABASE_MAX_OVERFLOW=5`) for Neon free/launch tiers.

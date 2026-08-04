@@ -50,5 +50,8 @@ Thumbs.db
 *.pid
 docker-data/
 
+data/generated/
+data/generated/**
+
 # OS
 desktop.ini
